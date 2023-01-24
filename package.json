@@ -37,6 +37,7 @@
     "vite-plugin-dts": "^0.9.6",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-md": "^0.11.4",
+    "vue-eslint-parser": "^9.1.0",
     "vue-router": "^4.0.12",
     "vue-tsc": "^0.28.10"
   },
