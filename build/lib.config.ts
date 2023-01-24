@@ -1,7 +1,7 @@
-import baseConfig from './base.config';
-import { defineConfig } from 'vite';
-import { resolve } from 'path';
-import dts from 'vite-plugin-dts';
+import baseConfig from './base.config'
+import { defineConfig } from 'vite'
+import { resolve } from 'path'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
   ...baseConfig,
@@ -10,7 +10,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, '../packages/index.ts'),
       name: 'GPXSUI',
-      fileName: (format) => `gpxs-ui.${format}.js`,
+      fileName: (format) => `gpxs-ui.${format}.js`
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
@@ -23,8 +23,5 @@ export default defineConfig({
       }
     }
   },
-  plugins: [
-    ...(baseConfig as any).plugins,
-    dts(),
-  ]
-});
+  plugins: [...(baseConfig as any).plugins, dts()]
+})

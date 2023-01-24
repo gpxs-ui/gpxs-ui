@@ -21,15 +21,18 @@ const getTplFilePath = (meta) => ({
   install: {
     from: './.template/index.ts.tpl',
     to: `../../packages/${meta.compName}/index.ts`
-  },
+  }
 })
 
 const compFilesTplReplacer = (meta) => {
   const filePaths = getTplFilePath(meta)
-  Object.keys(filePaths).forEach(key => {
-    const fileTpl = fs.readFileSync(resolve(__dirname, filePaths[key].from), 'utf-8')
+  Object.keys(filePaths).forEach((key) => {
+    const fileTpl = fs.readFileSync(
+      resolve(__dirname, filePaths[key].from),
+      'utf-8'
+    )
     const fileContent = handlebars.compile(fileTpl)(meta)
-    fs.outputFile(resolve(__dirname, filePaths[key].to), fileContent, err => {
+    fs.outputFile(resolve(__dirname, filePaths[key].to), fileContent, (err) => {
       if (err) console.log(err)
     })
   })
@@ -42,9 +45,13 @@ const listJsonTplReplacer = (meta) => {
   const listFileContent = JSON.parse(listFileTpl)
   listFileContent.push(meta)
   const newListFileContentFile = JSON.stringify(listFileContent, null, 2)
-  fs.writeFile(resolve(__dirname, listFilePath), newListFileContentFile, err => {
-    if (err) console.log(err)
-  })
+  fs.writeFile(
+    resolve(__dirname, listFilePath),
+    newListFileContentFile,
+    (err) => {
+      if (err) console.log(err)
+    }
+  )
   return listFileContent
 }
 
@@ -52,9 +59,12 @@ const listJsonTplReplacer = (meta) => {
 const routerTplReplacer = (listFileContent) => {
   const routerFileFrom = './.template/router.ts.tpl'
   const routerFileTo = '../../src/router.ts'
-  const routerFileTpl = fs.readFileSync(resolve(__dirname, routerFileFrom), 'utf-8')
+  const routerFileTpl = fs.readFileSync(
+    resolve(__dirname, routerFileFrom),
+    'utf-8'
+  )
   const routerMeta = {
-    routes: listFileContent.map(comp => {
+    routes: listFileContent.map((comp) => {
       return `{
     title: '${comp.compZhName}',
     name: '${comp.compName}',
@@ -63,8 +73,10 @@ const routerTplReplacer = (listFileContent) => {
   }`
     })
   }
-  const routerFileContent = handlebars.compile(routerFileTpl, { noEscape: true })(routerMeta)
-  fs.outputFile(resolve(__dirname, routerFileTo), routerFileContent, err => {
+  const routerFileContent = handlebars.compile(routerFileTpl, {
+    noEscape: true
+  })(routerMeta)
+  fs.outputFile(resolve(__dirname, routerFileTo), routerFileContent, (err) => {
     if (err) console.log(err)
   })
 }
@@ -73,16 +85,33 @@ const routerTplReplacer = (listFileContent) => {
 const installTsTplReplacer = (listFileContent) => {
   const installFileFrom = './.template/install.ts.tpl'
   const installFileTo = '../../packages/index.ts' // 这里没有写错，别慌
-  const installFileTpl = fs.readFileSync(resolve(__dirname, installFileFrom), 'utf-8')
+  const installFileTpl = fs.readFileSync(
+    resolve(__dirname, installFileFrom),
+    'utf-8'
+  )
   const installMeta = {
-    importPlugins: listFileContent.map(({ compName }) => `import { ${compName}Plugin } from './${compName}';`).join('\n'),
-    installPlugins: listFileContent.map(({ compName }) => `${compName}Plugin.install?.(app);`).join('\n    '),
-    exportPlugins: listFileContent.map(({ compName }) => `export * from './${compName}'`).join('\n'),
+    importPlugins: listFileContent
+      .map(
+        ({ compName }) => `import { ${compName}Plugin } from './${compName}';`
+      )
+      .join('\n'),
+    installPlugins: listFileContent
+      .map(({ compName }) => `${compName}Plugin.install?.(app);`)
+      .join('\n    '),
+    exportPlugins: listFileContent
+      .map(({ compName }) => `export * from './${compName}'`)
+      .join('\n')
   }
-  const installFileContent = handlebars.compile(installFileTpl, { noEscape: true })(installMeta)
-  fs.outputFile(resolve(__dirname, installFileTo), installFileContent, err => {
-    if (err) console.log(err)
-  })
+  const installFileContent = handlebars.compile(installFileTpl, {
+    noEscape: true
+  })(installMeta)
+  fs.outputFile(
+    resolve(__dirname, installFileTo),
+    installFileContent,
+    (err) => {
+      if (err) console.log(err)
+    }
+  )
 }
 
 module.exports = (meta) => {
@@ -91,5 +120,5 @@ module.exports = (meta) => {
   routerTplReplacer(listFileContent)
   installTsTplReplacer(listFileContent)
 
-  console.log(`组件新建完毕，请前往 packages/${meta.compName} 目录进行开发`);
+  console.log(`组件新建完毕，请前往 packages/${meta.compName} 目录进行开发`)
 }
