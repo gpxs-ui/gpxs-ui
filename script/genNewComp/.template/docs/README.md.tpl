@@ -11,9 +11,9 @@ import demo from './demo.vue'
 {{ compDesc }}
 
 ## 基础用法
-<Preview comp-name="{{compName}}" demo-name="demo">
+<PreView comp-name="{{compName}}" demo-name="demo">
   <demo />
-</Preview>
+</PreView>
 
 ## 属性
 参数 | 说明 | 类型 | 可选值 | 默认值 | 是否必填

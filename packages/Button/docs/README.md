@@ -4,6 +4,6 @@ import demo from './demo.vue'
 
 # 按钮组件
 
-<Preview comp-name="Button" demo-name="demo">
+<PreView comp-name="Button" demo-name="demo">
   <demo />
-</Preview>
+</PreView>
